@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 
 const API = import.meta.env.VITE_API_URL
-const visite = ref(null)
+const unici = ref(null)
 const caricamento = ref(true)
 
 async function caricaContatore() {
@@ -14,7 +14,7 @@ async function caricaContatore() {
     const res = await fetch(`${API}/pubblico/contatore?sito=algorithms`)
     if (res.ok) {
       const data = await res.json()
-      visite.value = data.visite
+      unici.value = data.unici ?? data.visite
     }
   } catch (err) {
     console.debug('Contatore non disponibile:', err)
@@ -29,9 +29,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="visite !== null" class="badge-contatore" title="Visite totali tracciate nel rispetto della privacy">
+  <div v-if="unici !== null" class="badge-contatore" title="Visitatori unici totali tracciati nel rispetto della privacy">
     <span class="pulsante-dot"></span>
-    <span class="testo">{{ visite.toLocaleString('it-IT') }} visite</span>
+    <span class="testo">{{ unici.toLocaleString('it-IT') }} {{ unici === 1 ? 'visitatore unico' : 'visitatori unici' }}</span>
   </div>
 </template>
 
