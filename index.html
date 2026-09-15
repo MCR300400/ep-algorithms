@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ep-algorithms — Guida & Selettore Intelligente di Algoritmi</title>
+    <meta name="description" content="Trova il miglior algoritmo per il tuo caso d'uso tramite questionario guidato, esplora la raccolta completa con dimostrazioni visive e implementazioni in 6 linguaggi." />
+    <script>
+      (function () {
+        try {
+          var salvato = localStorage.getItem('ep_tema');
+          var tema = (salvato === 'light' || salvato === 'dark') ? salvato : 'dark';
+          document.documentElement.setAttribute('data-theme', tema);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
