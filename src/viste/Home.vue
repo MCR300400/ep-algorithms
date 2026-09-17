@@ -1,6 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { ALGORITMI } from '../data/algoritmi'
+import { useLingua } from '../composables/useLingua'
+
+const { t, traduciCategoria } = useLingua()
 
 const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
 </script>
@@ -10,22 +13,21 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
     <section class="sezione-hero">
       <div class="badge-tag">
         <span class="dot"></span>
-        Guida & Decision Engine Algoritmico
+        {{ t('home.badge') }}
       </div>
       <h1 class="titolo-hero">
-        Scegli l'algoritmo ideale per il tuo problema computazionale.
+        {{ t('home.titolo') }}
       </h1>
       <p class="sottotitolo-hero">
-        Un sistema intelligente per orientarsi tra complessità asintotica, vincoli di memoria e stabilità.
-        Rispondi a poche domande mirate nel <strong>Selettore Guidato</strong> oppure esplora la <strong>Raccolta Completa</strong> con visualizzatore interattivo e codice sorgente in 6 linguaggi di programmazione.
+        {{ t('home.sottotitolo') }}
       </p>
 
       <div class="azioni-hero">
         <RouterLink to="/selettore" class="pulsante-hero primario">
-          Avvia il Selettore Guidato
+          {{ t('home.avviaSelettore') }}
         </RouterLink>
         <RouterLink to="/algoritmi" class="pulsante-hero secondario">
-          Esplora la Raccolta Completa
+          {{ t('home.esploraRaccolta') }}
         </RouterLink>
       </div>
     </section>
@@ -34,16 +36,16 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
     <section class="sezione-pilastri">
       <div class="griglia-pilastri">
         <div class="scheda-pilastro">
-          <h3>Questionario Guidato</h3>
-          <p>Seleziona i tuoi vincoli di tempo, memoria e struttura dati per ottenere il miglior algoritmo consigliato.</p>
+          <h3>{{ t('home.p1Titolo') }}</h3>
+          <p>{{ t('home.p1Desc') }}</p>
         </div>
         <div class="scheda-pilastro">
-          <h3>Dimostrazioni Grafiche Live</h3>
-          <p>Simulazioni dinamiche passo-passo con generazione casuale dei dati e controlli Play, Pausa e Step.</p>
+          <h3>{{ t('home.p2Titolo') }}</h3>
+          <p>{{ t('home.p2Desc') }}</p>
         </div>
         <div class="scheda-pilastro">
-          <h3>Codice in 6 Linguaggi</h3>
-          <p>Implementazioni pronte all'uso e verificate in Python, Java, TypeScript, JavaScript, C e C#.</p>
+          <h3>{{ t('home.p3Titolo') }}</h3>
+          <p>{{ t('home.p3Desc') }}</p>
         </div>
       </div>
     </section>
@@ -52,10 +54,10 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
     <section class="sezione-in-evidenza">
       <div class="sezione-testata">
         <div>
-          <h2>Algoritmi in evidenza</h2>
-          <span class="sottotitolo-sezione">Esplora i capisaldi dell'informatica</span>
+          <h2>{{ t('home.inEvidenza') }}</h2>
+          <span class="sottotitolo-sezione">{{ t('home.sottotitoloEvidenza') }}</span>
         </div>
-        <RouterLink to="/algoritmi" class="link-tutti">Vedi tutti ({{ ALGORITMI.length }}) &rarr;</RouterLink>
+        <RouterLink to="/algoritmi" class="link-tutti">{{ t('home.vediTutti') }} ({{ ALGORITMI.length }}) &rarr;</RouterLink>
       </div>
 
       <div class="griglia-anteprime">
@@ -66,12 +68,12 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
           class="scheda-anteprima"
         >
           <div class="anteprima-top">
-            <span class="badge-cat">{{ algo.categoria }}</span>
+            <span class="badge-cat">{{ traduciCategoria(algo.categoria) }}</span>
             <span class="badge-tempo">{{ algo.complessita.tempoMedio }}</span>
           </div>
           <h3 class="anteprima-titolo">{{ algo.nome }}</h3>
           <p class="anteprima-desc">{{ algo.descrizioneBreve }}</p>
-          <span class="anteprima-link">Esplora e visualizza &rarr;</span>
+          <span class="anteprima-link">{{ t('home.esploraVisualizza') }} &rarr;</span>
         </RouterLink>
       </div>
     </section>

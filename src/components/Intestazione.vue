@@ -3,8 +3,10 @@ import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import Contatore from './Contatore.vue'
 import { useTema } from '../composables/useTema'
+import { useLingua } from '../composables/useLingua'
 
 const { tema, toggleTema } = useTema()
+const { t, isItalian, isEnglish, setLingua } = useLingua()
 const router = useRouter()
 
 const menuAperto = ref(false)
@@ -68,20 +70,42 @@ onUnmounted(() => {
 
       <!-- Navigazione Desktop (Visibile SOLO su desktop / schermi ampi) -->
       <nav class="nav-desktop">
-        <RouterLink to="/" class="nav-link">Home</RouterLink>
-        <RouterLink to="/selettore" class="nav-link">Selettore Guidato</RouterLink>
-        <RouterLink to="/algoritmi" class="nav-link">Raccolta Algoritmi</RouterLink>
+        <RouterLink to="/" class="nav-link">{{ t('nav.home') }}</RouterLink>
+        <RouterLink to="/selettore" class="nav-link">{{ t('nav.selettore') }}</RouterLink>
+        <RouterLink to="/algoritmi" class="nav-link">{{ t('nav.algoritmi') }}</RouterLink>
       </nav>
 
-      <!-- Extra Desktop (Contatore + Tema per schermi ampi) -->
+      <!-- Extra Desktop (Contatore + Switcher Lingua + Tema per schermi ampi) -->
       <div class="extra-desktop">
         <Contatore />
+
+        <!-- Switcher Lingua Desktop IT/EN -->
+        <div class="selettore-lingua" role="group" aria-label="Selezione lingua">
+          <button
+            type="button"
+            class="btn-lingua"
+            :class="{ attivo: isItalian }"
+            title="Passa a Italiano"
+            @click="setLingua('it')"
+          >
+            IT
+          </button>
+          <button
+            type="button"
+            class="btn-lingua"
+            :class="{ attivo: isEnglish }"
+            title="Switch to English"
+            @click="setLingua('en')"
+          >
+            EN
+          </button>
+        </div>
 
         <button
           type="button"
           class="pulsante-tema-desktop"
-          :aria-label="tema === 'dark' ? 'Attiva tema chiaro' : 'Attiva tema scuro'"
-          :title="tema === 'dark' ? 'Tema attuale: Scuro. Clicca per Chiaro' : 'Tema attuale: Chiaro. Clicca per Scuro'"
+          :aria-label="tema === 'dark' ? (isItalian ? 'Attiva tema chiaro' : 'Switch to light mode') : (isItalian ? 'Attiva tema scuro' : 'Switch to dark mode')"
+          :title="tema === 'dark' ? (isItalian ? 'Tema attuale: Scuro. Clicca per Chiaro' : 'Current theme: Dark. Click for Light') : (isItalian ? 'Tema attuale: Chiaro. Clicca per Scuro' : 'Current theme: Light. Click for Dark')"
           @click="toggleTema"
         >
           <span class="icona-involucro">
@@ -120,7 +144,7 @@ onUnmounted(() => {
               <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
             </svg>
           </span>
-          <span class="testo-tema">{{ tema === 'dark' ? 'Chiaro' : 'Scuro' }}</span>
+          <span class="testo-tema">{{ tema === 'dark' ? t('nav.temaChiaro') : t('nav.temaScuro') }}</span>
         </button>
       </div>
 
@@ -137,7 +161,7 @@ onUnmounted(() => {
           <span class="barra-linea barra-superiore"></span>
           <span class="barra-linea barra-inferiore"></span>
         </span>
-        <span class="testo-menu">{{ menuAperto ? 'Chiudi' : 'Menu' }}</span>
+        <span class="testo-menu">{{ menuAperto ? t('nav.chiudi') : t('nav.menu') }}</span>
       </button>
     </div>
 
@@ -146,14 +170,14 @@ onUnmounted(() => {
       <div v-if="menuAperto" class="pannello-mobile">
         <div class="contenitore menu-interno">
           <div class="menu-sezione-testata">
-            <span class="etichetta-sezione">Esplora Algoritmi</span>
+            <span class="etichetta-sezione">{{ t('nav.esplora') }}</span>
           </div>
 
           <nav class="nav-lista-mobile">
             <RouterLink to="/" class="nav-card" @click="chiudiMenu">
               <div class="nav-card-info">
                 <span class="nav-card-num">01</span>
-                <span class="nav-card-nome">Home</span>
+                <span class="nav-card-nome">{{ t('nav.home') }}</span>
               </div>
               <span class="nav-card-freccia">&rarr;</span>
             </RouterLink>
@@ -161,7 +185,7 @@ onUnmounted(() => {
             <RouterLink to="/selettore" class="nav-card" @click="chiudiMenu">
               <div class="nav-card-info">
                 <span class="nav-card-num">02</span>
-                <span class="nav-card-nome">Selettore Guidato</span>
+                <span class="nav-card-nome">{{ t('nav.selettore') }}</span>
               </div>
               <span class="nav-card-freccia">&rarr;</span>
             </RouterLink>
@@ -169,7 +193,7 @@ onUnmounted(() => {
             <RouterLink to="/algoritmi" class="nav-card" @click="chiudiMenu">
               <div class="nav-card-info">
                 <span class="nav-card-num">03</span>
-                <span class="nav-card-nome">Raccolta Algoritmi</span>
+                <span class="nav-card-nome">{{ t('nav.algoritmi') }}</span>
               </div>
               <span class="nav-card-freccia">&rarr;</span>
             </RouterLink>
@@ -183,10 +207,30 @@ onUnmounted(() => {
               <Contatore />
             </div>
 
+            <!-- Switcher Lingua Mobile -->
+            <div class="selettore-lingua-mobile" role="group" aria-label="Selezione lingua">
+              <button
+                type="button"
+                class="btn-lingua-mobile"
+                :class="{ attivo: isItalian }"
+                @click="setLingua('it')"
+              >
+                Italiano (IT)
+              </button>
+              <button
+                type="button"
+                class="btn-lingua-mobile"
+                :class="{ attivo: isEnglish }"
+                @click="setLingua('en')"
+              >
+                English (EN)
+              </button>
+            </div>
+
             <button
               type="button"
               class="btn-tema-drawer"
-              :aria-label="tema === 'dark' ? 'Passa al tema chiaro' : 'Passa al tema scuro'"
+              :aria-label="tema === 'dark' ? (isItalian ? 'Passa al tema chiaro' : 'Switch to light mode') : (isItalian ? 'Passa al tema scuro' : 'Switch to dark mode')"
               @click="toggleTema"
             >
               <span class="icona-involucro">
@@ -225,7 +269,7 @@ onUnmounted(() => {
                   <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
                 </svg>
               </span>
-              <span class="testo-btn-tema">{{ tema === 'dark' ? 'Tema Chiaro' : 'Tema Scuro' }}</span>
+              <span class="testo-btn-tema">{{ tema === 'dark' ? t('nav.temaChiaro') : t('nav.temaScuro') }}</span>
             </button>
           </div>
         </div>
@@ -324,6 +368,42 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 0.85rem;
+}
+
+/* Switcher Lingua Desktop */
+.selettore-lingua {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem 0.35rem;
+  border-radius: 8px;
+  border: 1px solid var(--bordo-medio);
+  background: var(--bg-superficie);
+  user-select: none;
+}
+
+.btn-lingua {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--testo-terziario);
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  line-height: 1;
+}
+
+.btn-lingua:hover {
+  color: var(--testo-primario);
+}
+
+.btn-lingua.attivo {
+  background: var(--accento);
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .pulsante-tema-desktop {
@@ -594,6 +674,38 @@ onUnmounted(() => {
 
 .testo-btn-tema {
   font-size: 0.82rem;
+}
+
+/* Switcher Lingua Mobile Drawer */
+.selettore-lingua-mobile {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem;
+  border-radius: 9999px;
+  border: 1px solid var(--bordo-medio);
+  background: var(--bg-superficie-elevata);
+}
+
+.btn-lingua-mobile {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--testo-secondario);
+  padding: 0.4rem 0.6rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+}
+
+.btn-lingua-mobile.attivo {
+  background: var(--accento);
+  color: #ffffff;
+  font-weight: 700;
 }
 
 /* Overlay Backdrop */

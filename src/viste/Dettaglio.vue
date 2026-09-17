@@ -4,7 +4,9 @@ import { useRoute, RouterLink } from 'vue-router'
 import { ALGORITMI } from '../data/algoritmi'
 import VisualizzatoreAlgoritmo from '../components/VisualizzatoreAlgoritmo.vue'
 import BloccoCodice from '../components/BloccoCodice.vue'
+import { useLingua } from '../composables/useLingua'
 
+const { t, traduciCategoria } = useLingua()
 const route = useRoute()
 
 const algoritmo = computed(() => {
@@ -17,9 +19,9 @@ const algoritmo = computed(() => {
     <!-- Link Indietro & Categoria -->
     <div class="nav-superiore">
       <RouterLink to="/algoritmi" class="link-ritorno">
-        &larr; Torna alla Raccolta Algoritmi
+        &larr; {{ t('dettaglio.torna') }}
       </RouterLink>
-      <span class="badge-cat">{{ algoritmo.categoria }}</span>
+      <span class="badge-cat">{{ traduciCategoria(algoritmo.categoria) }}</span>
     </div>
 
     <!-- Testata Algoritmo -->
@@ -31,36 +33,36 @@ const algoritmo = computed(() => {
     <!-- Tabella Complessità & Caratteristiche -->
     <section class="scheda-proprieta">
       <div class="proprieta-item">
-        <span class="prop-label">Tempo Migliore</span>
+        <span class="prop-label">{{ t('dettaglio.tempoMigliore') }}</span>
         <span class="prop-valore">{{ algoritmo.complessita.tempoMigliore }}</span>
       </div>
       <div class="proprieta-item">
-        <span class="prop-label">Tempo Medio</span>
+        <span class="prop-label">{{ t('dettaglio.tempoMedio') }}</span>
         <span class="prop-valore valore-accento">{{ algoritmo.complessita.tempoMedio }}</span>
       </div>
       <div class="proprieta-item">
-        <span class="prop-label">Tempo Peggiore</span>
+        <span class="prop-label">{{ t('dettaglio.tempoPeggiore') }}</span>
         <span class="prop-valore">{{ algoritmo.complessita.tempoPeggiore }}</span>
       </div>
       <div class="proprieta-item">
-        <span class="prop-label">Spazio Ausiliario</span>
+        <span class="prop-label">{{ t('dettaglio.spazioAusiliario') }}</span>
         <span class="prop-valore">{{ algoritmo.complessita.spazio }}</span>
       </div>
       <div class="proprieta-item">
-        <span class="prop-label">Stabilità</span>
-        <span class="prop-valore">{{ algoritmo.caratteristiche.stabile ? 'Stabile' : 'Non stabile' }}</span>
+        <span class="prop-label">{{ t('dettaglio.stabilita') }}</span>
+        <span class="prop-valore">{{ algoritmo.caratteristiche.stabile ? t('dettaglio.stabile') : t('dettaglio.nonStabile') }}</span>
       </div>
       <div class="proprieta-item">
-        <span class="prop-label">Memoria In-Place</span>
-        <span class="prop-valore">{{ algoritmo.caratteristiche.inPlace ? 'Sì' : 'No' }}</span>
+        <span class="prop-label">{{ t('dettaglio.memoriaInPlace') }}</span>
+        <span class="prop-valore">{{ algoritmo.caratteristiche.inPlace ? t('selettore.si') : t('selettore.no') }}</span>
       </div>
     </section>
 
     <!-- Sezione 1: Dimostrazione Grafica Live -->
     <section class="sezione-blocco">
       <div class="blocco-header">
-        <h2>Dimostrazione Grafica Interattiva</h2>
-        <p>Osserva il funzionamento dell'algoritmo passo dopo passo su dati generati in tempo reale.</p>
+        <h2>{{ t('dettaglio.demoTitolo') }}</h2>
+        <p>{{ t('dettaglio.demoSottotitolo') }}</p>
       </div>
 
       <VisualizzatoreAlgoritmo :algoritmo-id="algoritmo.id" />
@@ -72,7 +74,7 @@ const algoritmo = computed(() => {
         <div class="riquadro-uso uso-consigliato">
           <div class="titolo-uso">
             <span class="icona-segno">✓</span>
-            <h3>Quando Usarlo</h3>
+            <h3>{{ t('dettaglio.quandoUsarlo') }}</h3>
           </div>
           <ul>
             <li v-for="(punto, idx) in algoritmo.quandoUsarlo" :key="idx">{{ punto }}</li>
@@ -82,7 +84,7 @@ const algoritmo = computed(() => {
         <div class="riquadro-uso uso-sconsigliato">
           <div class="titolo-uso">
             <span class="icona-segno">✕</span>
-            <h3>Quando Evitarlo</h3>
+            <h3>{{ t('dettaglio.quandoEvitarlo') }}</h3>
           </div>
           <ul>
             <li v-for="(punto, idx) in algoritmo.quandoEvitarlo" :key="idx">{{ punto }}</li>
@@ -94,8 +96,8 @@ const algoritmo = computed(() => {
     <!-- Sezione 3: Implementazione in 6 Linguaggi -->
     <section class="sezione-blocco">
       <div class="blocco-header">
-        <h2>Codice Sorgente per l'Implementazione</h2>
-        <p>Implementazioni testate e pronte per la produzione in Python, Java, TypeScript, JavaScript, C e C#.</p>
+        <h2>{{ t('dettaglio.codiceTitolo') }}</h2>
+        <p>{{ t('dettaglio.codiceSottotitolo') }}</p>
       </div>
 
       <BloccoCodice :codice="algoritmo.codice" />

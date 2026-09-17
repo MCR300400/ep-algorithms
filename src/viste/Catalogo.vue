@@ -2,6 +2,9 @@
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ALGORITMI, CATEGORIE } from '../data/algoritmi'
+import { useLingua } from '../composables/useLingua'
+
+const { t, traduciCategoria } = useLingua()
 
 const ricerca = ref('')
 const categoriaSelezionata = ref('Tutti')
@@ -25,8 +28,8 @@ const algoritmiFiltrati = computed(() => {
 <template>
   <div class="pagina-catalogo">
     <div class="testata-catalogo">
-      <h1>Raccolta Completa degli Algoritmi</h1>
-      <p>Esplora il catalogo degli algoritmi fondamentali con documentazione, dimostrazioni visive e sorgenti in 6 linguaggi.</p>
+      <h1>{{ t('catalogo.titolo') }}</h1>
+      <p>{{ t('catalogo.descrizione') }}</p>
     </div>
 
     <!-- Barra di ricerca e filtri per categoria -->
@@ -39,7 +42,7 @@ const algoritmiFiltrati = computed(() => {
         <input
           v-model="ricerca"
           type="text"
-          placeholder="Cerca per nome, categoria o concetto..."
+          :placeholder="t('catalogo.placeholderCerca')"
           class="input-ricerca"
         />
       </div>
@@ -53,14 +56,14 @@ const algoritmiFiltrati = computed(() => {
           :class="{ attivo: categoriaSelezionata === cat }"
           @click="categoriaSelezionata = cat"
         >
-          {{ cat }}
+          {{ traduciCategoria(cat) }}
         </button>
       </div>
     </div>
 
     <!-- Contatore risultati -->
     <div class="info-risultati">
-      Trovati <strong>{{ algoritmiFiltrati.length }}</strong> algoritmi
+      {{ t('catalogo.trovati') }} <strong>{{ algoritmiFiltrati.length }}</strong> {{ t('catalogo.algoritmi') }}
     </div>
 
     <!-- Griglia Schede Algoritmi -->
@@ -73,7 +76,7 @@ const algoritmiFiltrati = computed(() => {
       >
         <div class="scheda-corpo">
           <div class="scheda-top">
-            <span class="badge-cat">{{ algo.categoria }}</span>
+            <span class="badge-cat">{{ traduciCategoria(algo.categoria) }}</span>
             <span class="badge-paradigma">{{ algo.caratteristiche.paradigma }}</span>
           </div>
 
@@ -82,28 +85,28 @@ const algoritmiFiltrati = computed(() => {
 
           <div class="scheda-complessita">
             <div class="chip-complessita">
-              <span class="label-chip">Medio:</span>
+              <span class="label-chip">{{ t('catalogo.medio') }}:</span>
               <span class="valore-chip">{{ algo.complessita.tempoMedio }}</span>
             </div>
             <div class="chip-complessita">
-              <span class="label-chip">Spazio:</span>
+              <span class="label-chip">{{ t('catalogo.spazio') }}:</span>
               <span class="valore-chip">{{ algo.complessita.spazio }}</span>
             </div>
           </div>
         </div>
 
         <div class="scheda-footer">
-          <span class="link-dettagli">Dimostrazione & Codice &rarr;</span>
-          <span class="badge-inplace">{{ algo.caratteristiche.inPlace ? 'In-place' : 'Ausiliario' }}</span>
+          <span class="link-dettagli">{{ t('catalogo.demoCodice') }} &rarr;</span>
+          <span class="badge-inplace">{{ algo.caratteristiche.inPlace ? t('catalogo.inplaceBadge') : t('catalogo.ausiliarioBadge') }}</span>
         </div>
       </RouterLink>
     </div>
 
     <!-- Nessun risultato -->
     <div v-else class="nessun-risultato">
-      <p>Nessun algoritmo corrisponde ai criteri di ricerca selezionati.</p>
+      <p>{{ t('catalogo.nessunRisultato') }}</p>
       <button type="button" class="btn-reset" @click="ricerca = ''; categoriaSelezionata = 'Tutti'">
-        Reimposta filtri
+        {{ t('catalogo.reimposta') }}
       </button>
     </div>
   </div>

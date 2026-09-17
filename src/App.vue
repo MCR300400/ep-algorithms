@@ -1,6 +1,9 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router'
 import Intestazione from './components/Intestazione.vue'
+import { useLingua } from './composables/useLingua'
+
+const { t } = useLingua()
 </script>
 
 <template>
@@ -14,12 +17,12 @@ import Intestazione from './components/Intestazione.vue'
     <footer class="footer">
       <div class="contenitore footer-interno">
         <p class="copyright">
-          &copy; {{ new Date().getFullYear() }} <strong>ep-algorithms</strong> — Progettato & sviluppato da Edoardo Pippi.
+          &copy; {{ new Date().getFullYear() }} <strong>ep-algorithms</strong> — {{ t('footer.crediti') }}
         </p>
         <div class="link-footer">
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/selettore">Selettore</RouterLink>
-          <RouterLink to="/algoritmi">Algoritmi</RouterLink>
+          <RouterLink to="/">{{ t('nav.home') }}</RouterLink>
+          <RouterLink to="/selettore">{{ t('nav.selettore') }}</RouterLink>
+          <RouterLink to="/algoritmi">{{ t('nav.algoritmi') }}</RouterLink>
           <a href="https://github.com/MCR300400" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
       </div>

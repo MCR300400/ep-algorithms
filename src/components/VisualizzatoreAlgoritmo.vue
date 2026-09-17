@@ -1,5 +1,8 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useLingua } from '../composables/useLingua'
+
+const { t, isItalian } = useLingua()
 
 const props = defineProps({
   algoritmoId: {
@@ -1491,26 +1494,26 @@ onUnmounted(() => {
           v-if="!inEsecuzione"
           type="button"
           class="btn-controllo btn-play"
-          title="Avvia simulazione"
+          :title="isItalian ? 'Avvia simulazione' : 'Start simulation'"
           @click="avvia"
         >
-          ▶ Avvia
+          ▶ {{ t('vis.avvia') }}
         </button>
         <button
           v-else
           type="button"
           class="btn-controllo btn-pause"
-          title="Pausa"
+          :title="isItalian ? 'Pausa' : 'Pause'"
           @click="ferma"
         >
-          ⏸ Pausa
+          ⏸ {{ t('vis.pausa') }}
         </button>
 
         <button
           type="button"
           class="btn-controllo"
           :disabled="indicePasso <= 0"
-          title="Passo precedente"
+          :title="t('vis.passoPrec')"
           @click="passoPrecedente"
         >
           ⏮
@@ -1520,7 +1523,7 @@ onUnmounted(() => {
           type="button"
           class="btn-controllo"
           :disabled="indicePasso >= passi.length - 1"
-          title="Passo successivo"
+          :title="t('vis.passoSucc')"
           @click="passoSuccessivo"
         >
           ⏭
@@ -1529,24 +1532,24 @@ onUnmounted(() => {
         <button
           type="button"
           class="btn-controllo"
-          title="Ricomincia dall'inizio"
+          :title="isItalian ? 'Ricomincia dall\'inizio' : 'Reset to beginning'"
           @click="resetta"
         >
-          ↺ Reset
+          ↺ {{ t('vis.reset') }}
         </button>
 
         <button
           type="button"
           class="btn-controllo btn-nuovo"
-          title="Genera nuovi dati per la simulazione"
+          :title="isItalian ? 'Genera nuovi dati per la simulazione' : 'Generate new simulation data'"
           @click="generaNuoviDati"
         >
-          🎲 Nuovi Dati
+          🎲 {{ t('vis.nuoviDati') }}
         </button>
       </div>
 
       <div class="controlli-velocita">
-        <span class="label-velocita">Velocità</span>
+        <span class="label-velocita">{{ t('vis.velocita') }}</span>
         <input
           v-model.number="velocitaMs"
           type="range"

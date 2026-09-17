@@ -3,6 +3,9 @@ import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { DOMANDE, calcolaRaccomandazioni } from '../data/questionario'
 import { ALGORITMI } from '../data/algoritmi'
+import { useLingua } from '../composables/useLingua'
+
+const { t, traduciCategoria } = useLingua()
 
 const indiceDomanda = ref(0)
 const risposte = ref({})
@@ -48,15 +51,15 @@ const altriConsigliati = computed(() => risultati.value.slice(1, 4))
 <template>
   <div class="pagina-selettore">
     <div class="testata-selettore">
-      <h1>Selettore Intelligente di Algoritmi</h1>
-      <p>Rispondi alle domande per individuare l'algoritmo più efficiente e adatto ai tuoi requisiti specifici.</p>
+      <h1>{{ t('selettore.titolo') }}</h1>
+      <p>{{ t('selettore.descrizione') }}</p>
     </div>
 
     <!-- Barra di avanzamento -->
     <div class="barra-progresso-contenitore">
       <div class="barra-info">
         <span class="step-testo">
-          {{ questionarioCompletato ? 'Completato!' : `Domanda ${indiceDomanda + 1} di ${DOMANDE.length}` }}
+          {{ questionarioCompletato ? t('selettore.completato') : `${t('selettore.domandaDi')} ${indiceDomanda + 1} ${t('selettore.di')} ${DOMANDE.length}` }}
         </span>
         <span class="progresso-num">{{ progressoPercentuale }}%</span>
       </div>
@@ -98,7 +101,7 @@ const altriConsigliati = computed(() => risultati.value.slice(1, 4))
           class="btn-nav"
           @click="precedente"
         >
-          &larr; Domanda Precedente
+          &larr; {{ t('selettore.precedente') }}
         </button>
       </div>
     </div>
@@ -106,16 +109,16 @@ const altriConsigliati = computed(() => risultati.value.slice(1, 4))
     <!-- Fase 2: Risultato e Algoritmo Consigliato -->
     <div v-else class="riquadro-risultati">
       <div class="vincitore-badge">
-        <span>Algoritmo Raccomandato per il tuo caso</span>
+        <span>{{ t('selettore.raccomandato') }}</span>
       </div>
 
       <div v-if="migliorAlgoritmo" class="scheda-raccomandata">
         <div class="raccomandata-top">
           <div>
-            <span class="badge-cat">{{ migliorAlgoritmo.categoria }}</span>
+            <span class="badge-cat">{{ traduciCategoria(migliorAlgoritmo.categoria) }}</span>
             <h2 class="titolo-migliore">{{ migliorAlgoritmo.nome }}</h2>
           </div>
-          <div class="percentuale-match" title="Indice di affinità calcolato">
+          <div class="percentuale-match" title="Match">
             {{ migliorPercentuale }}% Match
           </div>
         </div>
@@ -124,25 +127,25 @@ const altriConsigliati = computed(() => risultati.value.slice(1, 4))
 
         <div class="griglia-metriche">
           <div class="metrica-item">
-            <span class="metrica-label">Tempo Medio</span>
+            <span class="metrica-label">{{ t('selettore.tempoMedio') }}</span>
             <span class="metrica-valore">{{ migliorAlgoritmo.complessita.tempoMedio }}</span>
           </div>
           <div class="metrica-item">
-            <span class="metrica-label">Tempo Peggiore</span>
+            <span class="metrica-label">{{ t('selettore.tempoPeggiore') }}</span>
             <span class="metrica-valore">{{ migliorAlgoritmo.complessita.tempoPeggiore }}</span>
           </div>
           <div class="metrica-item">
-            <span class="metrica-label">Spazio Ausiliario</span>
+            <span class="metrica-label">{{ t('selettore.spazio') }}</span>
             <span class="metrica-valore">{{ migliorAlgoritmo.complessita.spazio }}</span>
           </div>
           <div class="metrica-item">
-            <span class="metrica-label">In-Place</span>
-            <span class="metrica-valore">{{ migliorAlgoritmo.caratteristiche.inPlace ? 'Sì' : 'No' }}</span>
+            <span class="metrica-label">{{ t('selettore.inPlace') }}</span>
+            <span class="metrica-valore">{{ migliorAlgoritmo.caratteristiche.inPlace ? t('selettore.si') : t('selettore.no') }}</span>
           </div>
         </div>
 
         <div class="sezione-perche">
-          <h4>Perché è la scelta ideale:</h4>
+          <h4>{{ t('selettore.percheScelta') }}</h4>
           <ul>
             <li v-for="punto in migliorAlgoritmo.quandoUsarlo" :key="punto">{{ punto }}</li>
           </ul>
@@ -150,17 +153,17 @@ const altriConsigliati = computed(() => risultati.value.slice(1, 4))
 
         <div class="azioni-raccomandata">
           <RouterLink :to="`/algoritmo/${migliorAlgoritmo.id}`" class="btn-dettaglio">
-            Guarda Dimostrazione Grafica & Codice &rarr;
+            {{ t('selettore.guardaDemo') }} &rarr;
           </RouterLink>
           <button type="button" class="btn-riavvia" @click="riavvia">
-            Ripeti il Questionario
+            {{ t('selettore.ripeti') }}
           </button>
         </div>
       </div>
 
       <!-- Alternative consigliate -->
       <div v-if="altriConsigliati.length > 0" class="sezione-alternative">
-        <h3>Alternative e opzioni secondarie</h3>
+        <h3>{{ t('selettore.alternative') }}</h3>
         <div class="griglia-alternative">
           <div
             v-for="alt in altriConsigliati"
@@ -173,7 +176,7 @@ const altriConsigliati = computed(() => risultati.value.slice(1, 4))
             </div>
             <p class="alt-desc">{{ alt.algoritmo.descrizioneBreve }}</p>
             <RouterLink :to="`/algoritmo/${alt.algoritmo.id}`" class="alt-link">
-              Visualizza dettagli &rarr;
+              {{ t('selettore.dettagli') }} &rarr;
             </RouterLink>
           </div>
         </div>
