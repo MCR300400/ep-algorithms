@@ -57,7 +57,7 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
           <h2>{{ t('home.inEvidenza') }}</h2>
           <span class="sottotitolo-sezione">{{ t('home.sottotitoloEvidenza') }}</span>
         </div>
-        <RouterLink to="/algoritmi" class="link-tutti">{{ t('home.vediTutti') }} ({{ ALGORITMI.length }}) &rarr;</RouterLink>
+        <RouterLink to="/algoritmi" class="link-tutti">{{ t('home.vediTutti') }} ({{ ALGORITMI.length }})</RouterLink>
       </div>
 
       <div class="griglia-anteprime">
