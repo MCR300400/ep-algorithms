@@ -292,7 +292,6 @@ const altriConsigliati = computed(() => risultati.value.slice(1, 4))
 .scheda-opzione:hover {
   border-color: var(--accento-bordo);
   background: var(--bg-superficie-elevata);
-  transform: translateY(-1px);
 }
 
 .scheda-opzione.selezionata {

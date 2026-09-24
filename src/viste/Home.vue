@@ -32,18 +32,21 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
       </div>
     </section>
 
-    <!-- Pilastri della piattaforma -->
+    <!-- Pilastri della piattaforma (Aperti, ZERO card) -->
     <section class="sezione-pilastri">
       <div class="griglia-pilastri">
-        <div class="scheda-pilastro">
+        <div class="riga-pilastro">
+          <span class="indice-pilastro">01</span>
           <h3>{{ t('home.p1Titolo') }}</h3>
           <p>{{ t('home.p1Desc') }}</p>
         </div>
-        <div class="scheda-pilastro">
+        <div class="riga-pilastro">
+          <span class="indice-pilastro">02</span>
           <h3>{{ t('home.p2Titolo') }}</h3>
           <p>{{ t('home.p2Desc') }}</p>
         </div>
-        <div class="scheda-pilastro">
+        <div class="riga-pilastro">
+          <span class="indice-pilastro">03</span>
           <h3>{{ t('home.p3Titolo') }}</h3>
           <p>{{ t('home.p3Desc') }}</p>
         </div>
@@ -171,40 +174,44 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
   border-color: var(--bordo-forte);
 }
 
-/* Pilastri */
+/* Pilastri (Aperti, no card, con indici 01, 02, 03) */
 .sezione-pilastri {
-  margin-top: 3.5rem;
+  margin-top: 4.5rem;
 }
 
 .griglia-pilastri {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2.5rem 2rem;
 }
 
-.scheda-pilastro {
-  background: var(--bg-superficie);
-  border: 1px solid var(--bordo-sottile);
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: var(--ombra-scheda);
+.riga-pilastro {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--bordo-medio);
+  padding-top: 1.25rem;
 }
 
-.icona-pilastro {
-  font-size: 1.75rem;
-  margin-bottom: 0.8rem;
+.indice-pilastro {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  font-weight: 750;
+  color: var(--accento);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.65rem;
 }
 
-.scheda-pilastro h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
+.riga-pilastro h3 {
+  font-size: 1.18rem;
+  font-weight: 750;
   color: var(--testo-primario);
-  margin-bottom: 0.5rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.45rem;
 }
 
-.scheda-pilastro p {
-  font-size: 0.9rem;
-  line-height: 1.55;
+.riga-pilastro p {
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: var(--testo-secondario);
 }
 
@@ -255,21 +262,21 @@ const algoritmiInEvidenza = ALGORITMI.slice(0, 4)
 
 .scheda-anteprima {
   background: var(--bg-superficie);
-  border: 1px solid var(--bordo-sottile);
-  border-radius: 12px;
+  border: 1px solid var(--bordo-medio);
+  border-radius: 8px;
   padding: 1.4rem;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--ombra-scheda);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .scheda-anteprima:hover {
-  transform: translateY(-2px);
   border-color: var(--accento-bordo);
-  box-shadow: var(--ombra-scheda-hover);
+  background: var(--bg-superficie-elevata);
 }
 
 .anteprima-top {

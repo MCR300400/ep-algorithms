@@ -224,21 +224,21 @@ const algoritmiFiltrati = computed(() => {
 
 .scheda-algo {
   background: var(--bg-superficie);
-  border: 1px solid var(--bordo-sottile);
-  border-radius: 12px;
+  border: 1px solid var(--bordo-medio);
+  border-radius: 8px;
   padding: 1.5rem;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--ombra-scheda);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .scheda-algo:hover {
-  transform: translateY(-2px);
   border-color: var(--accento-bordo);
-  box-shadow: var(--ombra-scheda-hover);
+  background: var(--bg-superficie-elevata);
 }
 
 .scheda-top {
